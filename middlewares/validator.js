@@ -29,6 +29,12 @@ exports.signInValidator = [
     .withMessage('Password is missing!')
 ];
 
+exports.actorInfoValidator = [
+  check('name').trim().not().isEmpty().withMessage('Actor name is missing!'),
+  check('about').trim().not().isEmpty().withMessage('About is e required field!'),
+  check('gender').trim().not().isEmpty().withMessage('Gender is e required field!')
+];
+
 exports.validate = (req, res, next) => { 
   const error = validationResult(req).array();
   if (error.length) {
@@ -36,4 +42,4 @@ exports.validate = (req, res, next) => {
   }
 
   next();
-};
+}; 

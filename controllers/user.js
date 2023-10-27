@@ -262,7 +262,9 @@ exports.signIn = async (req, res, next) => {
     return sendError(res, 'Email/Password mismatch!');
   }
 
+  const { _id, name, role, isVerified } = user;
+
   const jwtToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
-  res.json({ user: {id: user._id, name: user.name, token: jwtToken, isVerified: user.isVerified } });
+  res.json({ user: {id: _id, name, email, role, token: jwtToken, isVerified } });
 }

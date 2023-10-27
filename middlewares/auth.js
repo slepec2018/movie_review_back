@@ -1,8 +1,13 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { sendError } = require('../utils/helper');
 
 exports.isAuth = async (req, res, next) => { 
   const token = req.headers?.authorization;
+
+  if (!token) {
+    return sendError(res, 'You are not authorized to access this route!', 401);
+  }
 
   const jwtToken = token.split('Bearer ')[1];
 
@@ -23,3 +28,13 @@ exports.isAuth = async (req, res, next) => {
 
   next();
 }
+
+exports.isAdmin = async (req, res, next) => { 
+  const { user } = req;
+
+  if (user.role !== 'admin') {
+    return sendError(res, 'You are not authorized to access this route!', 403);
+  }
+
+  next();
+};
