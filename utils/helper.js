@@ -17,3 +17,7 @@ exports.generateRandomBytes = () => {
     });
   })
 }
+
+exports.handleNotFound = (req, res, next) => { 
+  this.sendError(res, 'Route not found!', 404);
+}

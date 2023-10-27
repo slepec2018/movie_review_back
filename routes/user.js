@@ -9,6 +9,7 @@ const {
   resetPassword,
   signIn
 } = require('../controllers/user');
+const { isAuth } = require('../middlewares/auth');
 
 
 const { userValidator, validate, validatePassword, signInValidator } = require('../middlewares/validator');
@@ -28,5 +29,11 @@ router.post('/forget-password', forgetPassword);
 router.post('/verify-pass-reset-token', isValidPassResetToken, sendResetPasswordTokenStatus);
 
 router.post('/reset-password', validatePassword, validate, isValidPassResetToken, resetPassword);
+
+router.get('/is-auth', isAuth, (req, res) => { 
+  const { user } = req;
+
+  res.json({ user: {id: user._id, name: user.name, email: user.email, isVerified: user.isVerified }});
+});
 
 module.exports = router;
